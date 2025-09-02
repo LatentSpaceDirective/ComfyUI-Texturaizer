@@ -512,7 +512,7 @@ IP_PRESETS = [
 WEIGHT_TYPES = [
     "linear", "ease in", "ease out", 'ease in-out', 'reverse in-out', 'weak input',
     'weak output', 'weak middle', 'strong middle', 'style transfer', 'composition',
-    'strong style transfer', 'style and composition', 'style transfer precise', 'composition precise'
+    'strong style transfer'#, 'style and composition', 'style transfer precise', 'composition precise'
 ]
 SCALING = ['V only', 'K+V', 'K+V w/ C penalty', 'K+mean(V) w/ C penalty']
 

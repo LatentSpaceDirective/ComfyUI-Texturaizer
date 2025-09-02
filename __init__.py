@@ -9,7 +9,7 @@ Developed by Luke Kratsios and the LatentSpaceDirective.
 More about the creator: www.lukekratsios.com
 """
 
-__version__ = "0.0.7"
+__version__ = "0.0.8"
 
 import importlib
 
