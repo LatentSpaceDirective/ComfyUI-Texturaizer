@@ -945,6 +945,48 @@ class Texturaizer_GetMaterialTileData(Texturaizer_GetJsonData):
         tile_start_step, tile_x, tile_y, data_hash= get_tile_data(data)
         return (data_hash,)
 
+def process_kontext_image(data):
+    scene_data = data.get("scene_info", {})
+    embed_data = scene_data["embed_data"]
+    kontext_data = data.get("kontext", {})
+    kontext_extra_image = kontext_data.get("kontext_extra_image", "")
+    try:
+        if kontext_extra_image == "":
+            return (blank_image, False)
+        kontext_extra_image = get_image_from_path(kontext_extra_image) if not embed_data else get_image_from_base64(kontext_extra_image)
+        return (kontext_extra_image, True)
+    except:
+        return (blank_image, False)
+    
+class Texturaizer_GetKontextData(Texturaizer_GetJsonData):
+    """
+    Node to retrieve Kontext data from JSON and calculate a hash for change detection.
+    """
+
+    RETURN_TYPES = ("IMAGE", "BOOLEAN", "STRING")
+    RETURN_NAMES = ("kontext_extra_image", "use_extra_image", "data_hash")
+    FUNCTION = "read_json_data"
+    CATEGORY = "Texturaizer"
+    DESCRIPTION = "Retrieves Kontext extra image from the provided directory or the global directory if not specified."
+
+    def read_json_data(self, directory_optional="", data_optional={}):
+        data = get_data(directory_optional, data_optional)
+
+        kontext_extra_image, use_extra_image = process_kontext_image(data)
+        image_hash = combo_image_hash(kontext_extra_image)
+        data_hash = calculate_data_hash((image_hash, use_extra_image))
+        return (kontext_extra_image, use_extra_image, data_hash)
+
+    @staticmethod
+    def IS_CHANGED(directory_optional="", data_optional={}):
+        data = get_data(directory_optional, data_optional)
+
+        kontext_extra_image, use_extra_image = process_kontext_image(data)
+        image_hash = combo_image_hash(kontext_extra_image)
+        data_hash = calculate_data_hash((image_hash, use_extra_image))
+        return (data_hash,)
+
+
 NODE_CLASS_MAPPINGS = {
     "Texturaizer_SetGlobalDir": Texturaizer_SetGlobalDir,  
     "Texturaizer_GetJsonData": Texturaizer_GetJsonData,  
@@ -964,6 +1006,7 @@ NODE_CLASS_MAPPINGS = {
     "Texturaizer_UseSDXL": Texturaizer_UseSDXL,
     "Texturaizer_GetFluxGuidance": Texturaizer_GetFluxGuidance,
     "Texturaizer_GetMaterialTileData": Texturaizer_GetMaterialTileData,
+    "Texturaizer_GetKontextData": Texturaizer_GetKontextData,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -985,4 +1028,5 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "Texturaizer_UseSDXL": "Use SDXL? (Texturaizer)",
     "Texturaizer_GetFluxGuidance": "Get Flux Guidance (Texturaizer)",
     "Texturaizer_GetMaterialTileData": "Get Material Tile Data (Texturaizer)",
+    "Texturaizer_GetKontextData": "Get Kontext Data (Texturaizer)",
 }
