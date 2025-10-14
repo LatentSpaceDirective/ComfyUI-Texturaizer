@@ -73,7 +73,10 @@ def encode(clip, text_g, text_l, width, height, clip_scale, version_select):
     crop_h = 0
     text = text_g + ", " + text_l
     if version_select == 'SDXL':
-        conditioning = CLIPTextEncodeSDXL().encode(clip, width, height, crop_w, crop_h, width, height, text_g, text_l)[0]
+        try:
+            conditioning = CLIPTextEncodeSDXL().execute(clip, width, height, crop_w, crop_h, width, height, text_g, text_l)[0]
+        except: # Old versions of comfyUI use encode instead of execute for this.
+            conditioning = CLIPTextEncodeSDXL().encode(clip, width, height, crop_w, crop_h, width, height, text_g, text_l)[0]
     else: #if version_select == 'SD1.5
         conditioning = CLIPTextEncode().encode(clip, text)[0]
         
