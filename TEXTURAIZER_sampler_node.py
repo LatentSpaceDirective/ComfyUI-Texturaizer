@@ -2,6 +2,7 @@ import comfy
 from comfy import samplers
 from comfy_extras import nodes_custom_sampler
 import nodes
+from .any_type import any
 
 import torch
 import math
@@ -101,6 +102,7 @@ class SigmasSelector_texturaizer:
         Calculates sigma values for a given scheduler and model, supporting
         advanced scheduler options like AYS and GITS.
         """
+        # import comfy.samplers.KSampler.SCHEDULERS
         if scheduler.startswith('AYS'):
             print("AYS")
             sigmas = nodes.NODE_CLASS_MAPPINGS['AlignYourStepsScheduler']().get_sigmas(scheduler[4:], steps, denoise)

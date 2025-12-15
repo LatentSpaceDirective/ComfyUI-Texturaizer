@@ -9,9 +9,11 @@ Developed by Luke Kratsios and the LatentSpaceDirective.
 More about the creator: www.lukekratsios.com
 """
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 import importlib
+
+WEB_DIRECTORY = "./js"
 
 # Define node modules used by Texturaizer
 node_list = [
@@ -22,7 +24,8 @@ node_list = [
     "TEXTURAIZER_cached_models",
     "TEXTURAIZER_controlnet_node",
     "TEXTURAIZER_other_nodes",
-    "TEXTURAIZER_save_data_nodes"
+    "TEXTURAIZER_save_data_nodes",
+    "TEXTURAIZER_model_patch_nodes"
 ]
 
 # Initialize mappings for node classes and display names
@@ -35,4 +38,8 @@ for module_name in node_list:
     NODE_CLASS_MAPPINGS.update(imported_module.NODE_CLASS_MAPPINGS)
     NODE_DISPLAY_NAME_MAPPINGS.update(imported_module.NODE_DISPLAY_NAME_MAPPINGS)
 
-__all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
+__all__ = [
+    "NODE_CLASS_MAPPINGS",
+    "NODE_DISPLAY_NAME_MAPPINGS",
+    "WEB_DIRECTORY",
+]

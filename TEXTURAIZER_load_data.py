@@ -26,7 +26,7 @@ def create_black_image_base64(width=64, height=64):
 
 black_pixel_base64 = create_black_image_base64()
 
-SCHEDULERS = comfy.samplers.KSampler.SCHEDULERS + ['AYS SDXL', 'AYS SD1', 'AYS SVD', "GITS[coeff=1.2]"]
+# SCHEDULERS = comfy.samplers.KSampler.SCHEDULERS + ['AYS SDXL', 'AYS SD1', 'AYS SVD', "GITS[coeff=1.2]"]
 
 def parse_sampler_data(data):
     """
@@ -372,7 +372,7 @@ class Texturaizer_GetClipModelName(Texturaizer_GetJsonData):
         data_hash = calculate_data_hash([clip1, clip2])
         return (data_hash,)
     
-vae_names = nodes.VAELoader.vae_list()
+vae_names = any #nodes.VAELoader.vae_list()
 
 class Texturaizer_GetVAEName(Texturaizer_GetJsonData):
     """
@@ -622,7 +622,7 @@ class Texturaizer_GetSamplerData(Texturaizer_GetJsonData):
     Computes a hash to detect changes in sampler configuration.
     """
 
-    RETURN_TYPES = ("INT", "FLOAT", comfy.samplers.KSampler.SAMPLERS, SCHEDULERS, "INT", "FLOAT", "INT", "INT", "INT", "BOOLEAN", noise_modes, "STRING")
+    RETURN_TYPES = ("INT", "FLOAT", any, any, "INT", "FLOAT", "INT", "INT", "INT", "BOOLEAN", noise_modes, "STRING")
     RETURN_NAMES = ("seed", "cfg", "sampler", "scheduler", "steps", "denoise", "adv steps", "adv steps start", "batch size", "use empty latent", "noise mode", "data_hash")
     FUNCTION = "read_json_data"
     CATEGORY = "Texturaizer"
